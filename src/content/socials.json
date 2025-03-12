@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "icon": {
+      "type": "lucide",
+      "name": "github"
+    },
+    "text": "GitHub",
+    "link": "https://github.com/DoraYeh1519"
+  },
+  {
+    "id": 2,
+    "icon": {
+      "type": "lucide",
+      "name": "mail"
+    },
+    "text": "dorayeh011093@gmail.com",
+    "link": "mailto:dorayeh011093@gmail.com"
+  }
+]
