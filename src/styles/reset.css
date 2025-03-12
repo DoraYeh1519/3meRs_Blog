@@ -1,4 +1,12 @@
 @font-face {
+  font-family: 'Noto_Sans_TC';
+  src: url('/public/fonts/NotoSansTC-VariableFont_wght.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
   font-family: 'Geist';
   src: url('/fonts/Geist.woff2') format('woff2');
   font-weight: 100 900;
@@ -24,17 +32,18 @@
 
 html {
 	color-scheme: dark;
-  background-color: #0b0b0b;
+  background-color: #0e0f0f;
 }
 
 html,
 body {
 	margin: 0;
+  margin-bottom: 0.5rem;
 }
 
 body {
 	-webkit-font-smoothing: antialiased;
-  font-family: 'Geist', sans-serif;
+  font-family: 'Noto Sans TC', sans-serif;
 }
 
 input,

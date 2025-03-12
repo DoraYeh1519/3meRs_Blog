@@ -1,10 +1,10 @@
 :root {
   --primary: #1fdcb6;
   /* Needed for some hover effects. This is just the R, G and B values of the hex color above */
-  --primary-rgb: 140, 92, 245;
+  --primary-rgb: 31, 220, 182;
   /* Used for links */
-  --primary-light: #a277ff;
-  --primary-lightest: #c2a8fd;
+  --primary-light: #1fdcb6;
+  --primary-lightest: #b9e0d8;
 }
 
 .overview-list {
@@ -46,6 +46,7 @@ main {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
+  flex: 1;
   gap: 2rem;
   padding: 2rem 0;
 }
@@ -170,14 +171,15 @@ main {
   gap: 1rem;
 }
 
-@font-face {
-  font-family: 'Noto_Sans_TC';
-  src: url('/public/fonts/NotoSansTC-VariableFont_wght.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+.footer {
+  text-align: center;
+  padding: 2rem 0; /* 增加內距，讓文字不會貼到底 */
+  background-color: #bababa;
+  color: #333;
+  font-size: 0.8rem;
 }
 
-body {
-  font-family: 'Noto Sans TC', sans-serif;
+.footer-text {
+  align-items: center; /* 讓區塊垂直置中 */
+  text-align: center; /* 讓文字也置中 */
 }
