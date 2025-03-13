@@ -1,11 +1,14 @@
 [
   {
-    "id": "dev"
+    "id": "blog"
   },
   {
     "id": "security"
   },
   {
     "id": "research"
+  },
+  {
+    "id": "trash_talk"
   }
 ]
