@@ -1,0 +1,60 @@
+---
+title: Xchange
+date: 06-05-2024
+description: exchanging experience sharing platform for NCCU students
+image: ../assets/xchange.png
+info:
+  - text: GitHub
+    link: https://github.com/DoraYeh1519/Xchange-demo
+    icon:
+      type: lucide
+      name: github
+  - text: Project Documentation
+    link: https://drive.google.com/file/d/1gIHEWI439VHwFuOmHNzzGPNX-t2PKwRc/view?usp=sharing
+    icon:
+      type: lucide
+      name: file
+---
+import { YouTube } from 'astro-embed';
+
+
+
+## Introduction
+資料庫管理的期末專案，我們開發了以政大交換生為目標對象的交流平台，以 blog 的形式呈現。期末獲得 5/24 名。
+
+Demo 時已實作了 *login, register, post (new, edit, delete), comment (anonymous, delete), like, profile (edit), tag friend, views count* 等功能。
+
+## Tech
+- Frontend: Boostrap, JavaScript
+- Backend: Python, Flask, MySQL
+
+## Presentation Video
+<YouTube 
+  id="https://www.youtube.com/watch?v=l_jrHp56MwI" 
+  poster="https://github.com/DoraYeh1519/Xchange-demo/blob/master/image/mainpage.png?raw=true"
+  title="1122-DBMS Final Presentation G7 - XChange"
+/>
+
+## Review
+為了充實 blog 內容，時隔將近一年來寫 review 。
+
+這個 project 是我第一個從需求分析完整參與到最後期末報告的專案，也是唯一一個全英文協作的。可能因為我個人的貢獻度高（自評），是我大學到現在最有成就感的一份作業。
+
+當時的過程記得的不多了，只記得當初快要demo的時候，一個人深夜~~孤苦無依~~的趕著把網站完成，想著如果猝死的話要來找組員索命的一些瑣碎念頭。
+
+一些其他阿哩拉雜的事情寫出來像是抱怨就不寫了。回顧一下個人印象比較深刻的問題：
+
+1. 當初寫了一份 ER diagram 但是被退回，後來交給組員大重寫。主要是一些數字細節的地方要注意，還有要明確 function 的運作。
+2. 拿 Jorick 的 blog 直接來改，只有為了配合 function 而增加一些東西，其他沒有用到的就沒管。這份專案大概因此胖了不少。
+3. 圖片 upload 問題到最後還是沒有解決，在本機端 demo 沒事，但終究沒有完成這個功能。
+4. register 本來想用 API 來做國家地區選定功能。但 Demo 前後那幾天 API 掛了，日夜祈禱也沒好，最後改成 text input。Demo 時被提了一嘴。
+5. 可能是我個人的問題，我做東西做到一半總想加一些新功能，自己的 project 改了就改了，但這份 project 要加就要改到資料庫、ERD，所以總麻煩到組員 (sorry。
+6. 前端直接拿了模板來套，所以有些地方不太符合我們的需求，改得非常非常痛苦。最後用一些土法煉鋼的方式解決，總覺得寫得不夠漂亮 ~~程式這種東西能跑就好~~。
+7. 資料結構修得不夠認真，到最後我也沒做出 search 功能，我很抱歉。
+8. 分配工作一定要明確，不然到最後真的會有人沒做什麼事，而另一些人覺得自己快猝死。
+
+不小心又快寫成抱怨所以就先寫到這裡
+
+## Special Thanks
+感謝負責我們組的助教 Mavis Tsai 和 Meng Mei Chen，幫我們解決許多前期的問題，也幫我們劃定了能力所及的 demo 範圍，讓我們期末可以順利結案。  
+最後 shout out to Jorick，我們組的交換生。非常積極參與整個專案，給我們許多很好的 idea，Thanks！！！
