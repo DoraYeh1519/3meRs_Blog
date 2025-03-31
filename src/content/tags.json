@@ -10,5 +10,20 @@
   },
   {
     "id": "trash_talk"
+  },
+  {
+    "id": "writeup"
+  },
+  {
+    "id": "web"
+  },
+  {
+    "id": "misc"
+  },
+  {
+    "id": "forensics"
+  },
+  {
+    "id": "OSINT"
   }
 ]
