@@ -1,0 +1,66 @@
+---
+title: "SwampCTF2025 Writeup (web updated)"
+description: "解了一些簡單的題目，紀錄一下當作練習寫 writeup"
+image: "../assets/gator.jpg"
+createdAt: 03-13-2025
+draft: false
+tags:
+  - writeup
+  - web
+---
+
+## SwampCTF Intro
+
+SwampCTF 是 UFSIT （ UF Student Infosec Team ）舉辦的 CTF ，共有七個類別：
+* Pwn
+* RE
+* Web
+* Crypto
+* Forensics
+* Misc
+* OSINT
+
+
+這次我只打了 Web, Forensics, Misc 和 OSINT 這四個類別，就我解出來的部分來說，題目相當 beginner friendly。  
+
+而且可能是我比較弱。我覺得 SwampCTF 2025 在這幾個領域的題目，看重訊息收集能力比技術能力來得多一點，甚至有一些猜測的成分。  
+
+這次總共解了 14 題。總共 1348 分，團隊排名 135／751，但其實第 10 名後就有很多個人參賽者。（獎項是用了提示扣15分，笑死） 
+
+![ranking](/img/swampCTF/rank.png)
+
+這是解開的題單：
+
+![questions](/img/swampCTF/questionnaire.png)
+
+## Web
+這次解了最簡單的四題
+
+### Serialies - 20 pts
+![question1](/img/swampCTF/web/serialies/srl(1).png)  
+
+題目只給了一個網址 http://chals.swampctf.com:44444/ 和一個檔案
+
+網址點開來長這樣，F12 看起來也沒東西。還是得看檔案
+
+![webisteQ1](/img/swampCTF/web/serialies/website.png)  
+
+檔案是個 zip ，解壓後是一個用 java spring 架的 api 架構，在 personController.java 裡面有一個顯眼的地址：
+```/api/person```  
+
+![fileQ1](/img/swampCTF/web/serialies/srl(2).png) 
+
+直接試一下
+```
+ http://chals.swampctf.com:44444/api/person
+```
+
+![flagQ1](/img/swampCTF/web/serialies/srl(3).png) 
+
+按 ctrl+F 搜尋後發現滿山遍野的 flag
+
+![pokemonMeme](/img/swampCTF/web/serialies/pikachu.jpeg) 
+
+flag: **swampCTF\{f1l3_r34d_4nd_d3s3r14l1z3_pwn4g3_x7q9z2r5v8\}**
+
+### SlowAPI - 50 pts
