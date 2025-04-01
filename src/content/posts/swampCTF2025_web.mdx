@@ -1,5 +1,5 @@
 ---
-title: "SwampCTF2025 Writeup: Part1 Web"
+title: "[Writeup] SwampCTF2025(Part1): Web"
 description: "解了一些簡單的題目，紀錄一下當作練習寫 writeup，後面更新可能在這裡或多發幾篇"
 image: "../assets/gator.jpg"
 createdAt: 04-01-2025
@@ -12,56 +12,61 @@ tags:
 ## SwampCTF Intro
 
 SwampCTF 是 UFSIT （ UF Student Infosec Team ）舉辦的 CTF ，共有七個類別：
-* Pwn
-* RE
-* Web
-* Crypto
-* Forensics
-* Misc
-* OSINT
 
-今年在 3/29 到 3/30 兩天舉辦，這次我只打了 Web, Forensics, Misc 和 OSINT 這四個類別，就我解出來的部分來說，題目相當 beginner-friendly。  
+- Pwn
+- RE
+- Web
+- Crypto
+- Forensics
+- Misc
+- OSINT
 
-而且可能是我比較弱。我覺得 SwampCTF 2025 在這幾個領域的題目，看重訊息收集能力比技術能力來得多一點，甚至有一些猜測的成分。  
+今年在 3/29 到 3/30 兩天舉辦，這次我只打了 Web, Forensics, Misc 和 OSINT 這四個類別，就我解出來的部分來說，題目相當 beginner-friendly。
+
+而且可能是我比較弱。我覺得 SwampCTF 2025 在這幾個領域的題目，看重訊息收集能力比技術能力來得多一點，甚至有一些猜測的成分。
 
 這次總共解了 14 題。總共 1348 分，團隊排名 135／751，但其實第 10 名後就有很多個人參賽者。
 
 ![ranking](/img/swampCTF/rank.png)
 
-（獎項是用了提示扣15分，笑死）  
+（獎項是用了提示扣 15 分，笑死）  
 這是解開的題單：
 
 ![questions](/img/swampCTF/questionnaire.png)
 
 ## Web
-這次解了最簡單的四題一共 200 分
+
+這次解了最簡單的四題，一共 220 分
 
 ### Serialies - 20 pts
-![question1](/img/swampCTF/web/serialies/srl(1).png)  
+
+![question1](</img/swampCTF/web/serialies/srl(1).png>)
 
 題目只給了一個網址 http://chals.swampctf.com:44444/ 和一個檔案
 
 網址點開來長這樣，F12 看起來也沒東西。還是得看檔案
 
-![webisteQ1](/img/swampCTF/web/serialies/website.png)  
+![webisteQ1](/img/swampCTF/web/serialies/website.png)
 
 檔案是個 zip ，解壓後是一個用 java spring 架的 api 架構，在 personController.java 裡面有一個顯眼的地址：
-```/api/person```  
+`/api/person`
 
-![fileQ1](/img/swampCTF/web/serialies/srl(2).png) 
+![fileQ1](</img/swampCTF/web/serialies/srl(2).png>)
 
 直接試一下
+
 ```
  http://chals.swampctf.com:44444/api/person
 ```
 
-![flagQ1](/img/swampCTF/web/serialies/srl(3).png) 
+![flagQ1](</img/swampCTF/web/serialies/srl(3).png>)
 
 按 ctrl+F 搜尋後發現滿山遍野的 flag
 
-![pokemonMeme](/img/swampCTF/web/serialies/pikachu.jpeg) 
+![pokemonMeme](/img/swampCTF/web/serialies/pikachu.jpeg)
 
 ---
+
 <div class="text-center">
   <span>🚩</span>
   <span style="color:#1fdcb6">**swampCTF\{f1l3_r34d_4nd_d3s3r14l1z3_pwn4g3_x7q9z2r5v8\}**</span>
@@ -69,13 +74,14 @@ SwampCTF 是 UFSIT （ UF Student Infosec Team ）舉辦的 CTF ，共有七個�
 ---
 
 ### SlowAPI - 50 pts
-![question2](/img/swampCTF/web/slowAPI/API(1).png)  
+
+![question2](</img/swampCTF/web/slowAPI/API(1).png>)
 
 題目有兩個比較重要的資訊，第一個網址 http://chals.swampctf.com:43611 ，第二是他提到關於 Next.js 的喧囂（？）
 
-我確實有印象大概一週前聽到過 Next.js 有一個 CVE ，查了一下看到這篇文章 《NextJS CVE-2025-29927 安全漏洞》（ https://www.cnblogs.com/risheng/p/18790592 ）  
+我確實有印象大概一週前聽到過 Next.js 有一個 CVE ，查了一下看到這篇文章 《NextJS CVE-2025-29927 安全漏洞》（ https://www.cnblogs.com/risheng/p/18790592 ）
 
-![CVE](/img/swampCTF/web/slowAPI/API(5).png)
+![CVE](</img/swampCTF/web/slowAPI/API(5).png>)
 
 裡面提到了漏洞原理和利用方式：  
 基本上就是在請求中增加或修改請求頭 x-middleware-subrequest ，讓 Next.js 以為這是內部請求，進而錯誤地允許訪問受保護的 API 或資料。  
@@ -83,53 +89,60 @@ ex:
 ```
 x-middleware-subrequest: middleware:middleware:middleware
 ```
+
 點開題目網址，是一個網站 SwampAPI，裡面有三個可點擊頁面：Home, Login, Secret Flag
 
 Home:
-  
-![home](/img/swampCTF/web/slowAPI/API(2).png)
+
+![home](</img/swampCTF/web/slowAPI/API(2).png>)
 
 Login:
 
-![login](/img/swampCTF/web/slowAPI/API(3).png)
+![login](</img/swampCTF/web/slowAPI/API(3).png>)
 
 說他登入和註冊功能還不能用
 
 Secret Flag:
 
-![flagnone](/img/swampCTF/web/slowAPI/API(4).png)
+![flagnone](</img/swampCTF/web/slowAPI/API(4).png>)
 
 理所當然的 Access Denied，但看到了提示："Maybe there's a way to convince the API that you are a server-side middleware process."，符合剛剛看到的漏洞利用方式。
 
 切到 firefox 打開 devtool --> network ， Ctrl + R 看到一個發向 backend:8000/api/protected/flag 的請求，編輯請求照著前面說明的方式修改，加上：
+
 ```
 x-middleware-subrequest: middleware:middleware:middleware
 ```
-![flagnone2](/img/swampCTF/web/slowAPI/API(7).png)
 
-出現  NS_ERROR_UNKNOWN_HOST 的錯誤
+![flagnone2](</img/swampCTF/web/slowAPI/API(7).png>)
+
+出現 NS_ERROR_UNKNOWN_HOST 的錯誤
 
 把 Host 改成 http://chals.swampctf.com:43611/api/protected/flag ，一樣的 header 再發一次
 
-![flag](/img/swampCTF/web/slowAPI/API(8).png)    
+![flag](</img/swampCTF/web/slowAPI/API(8).png>)
 
 ---
+
 <div class="text-center">
   <span>🚩</span>
   <span style="color:#1fdcb6">**swampCTF\{b3w4r3_th3_m1ddl3w4r3\}**</span>
 </div>
---- 
+---
 
 ### Hidden Message-Board - 50 pts
+
 ![question3](/img/swampCTF/web/HiddenMessage-Board/hmb.png)
 
 給了一個網頁 http://chals.swampctf.com:43333 ，點開來就是一個~~看起來非常初學~~的留言板  
 根據提示打開 devtool ，發現有一個 display:none 的註釋
+
 ```
 Need to remove flagstuff, code: G1v3M3Th3Fl@g!!!!
 ```
 
-從 network Ctrl+F 查詢註釋所說的 flagstuff ，在bundle.js中發現了一些函數：
+從 network Ctrl+F 查詢註釋所說的 flagstuff ，在 bundle.js 中發現了一些函數：
+
 ```
 var printFlagSetup = document.getElementById("flagstuff");
 console.log("Flag Will Be Checked");
@@ -146,47 +159,52 @@ async function checkCode() {
 ```
 
 先在 console 試
-```document.getElementById("flagstuff").setAttribute("code", "G1v3M3Th3Fl@g!!!!")```
+`document.getElementById("flagstuff").setAttribute("code", "G1v3M3Th3Fl@g!!!!")`
 ，結果什麼都沒有
 
 從留言板嘗試 XXS
-```<div id="flagstuff" code="G1v3M3Th3Fl@g!!!!"></div>```  
+`<div id="flagstuff" code="G1v3M3Th3Fl@g!!!!"></div>`
 
-![flag](/img/swampCTF/web/HiddenMessage-Board/hmb(3).png)
+![flag](</img/swampCTF/web/HiddenMessage-Board/hmb(3).png>)
 
 Bingo!
 
 ---
+
 <div class="text-center">
   <span>🚩</span>
-  <span style="color:#1fdcb6">**swampCTF\{Cross_51t3_Scripting_0r_XSS_c4n_ch4ng3_w3bs1t3s\}**</span>
+  <span style="color:#1fdcb6">**swampCTF\{Cr0ss_S1t3_Scr1p1ing_0r_XSS_c4n_ch4ng3_w3bs1t3s\}**</span>
 </div>
---- 
+---
 
 ### Beginner Web - 100 pts
+
 ![question4](/img/swampCTF/web/BeginnerWeb/bw.png)
 
-這個題目將 flag 分成三個 part，並給了一個網址 http://chals.swampctf.com:42222/ 
+這個題目將 flag 分成三個 part，並給了一個網址 http://chals.swampctf.com:42222/
 
 點進去是一個網頁，唯一的功能似乎是告訴我們今天是不是星期二（hint: 比賽兩天是周末）
 
 先打開 devtool 看看
 
-![flagpart1](/img/swampCTF/web/BeginnerWeb/bw(2).png)
+![flagpart1](</img/swampCTF/web/BeginnerWeb/bw(2).png>)
 
-直接找到 part1 了  
+直接找到 part1 了
+
 ```
 <!--Part 1 of the flag: w3b_"-->
 ```
 
-然後慣例的也跑到 network Ctrl+F 搜尋 flag 
+然後慣例的也跑到 network Ctrl+F 搜尋 flag
 
 發現了 favicon.ico 中的請求頭中有
+
 ```
 flagPart3: c0mpl1c473d
 ```
 
 現在找到頭尾了，剩下 part2。直接在 network 搜尋了 part2，發現在 main-34VY7I6V.js 裡面有一段：
+
 ```
 var gs = class e {
     constructor(t) {
@@ -209,13 +227,13 @@ var gs = class e {
 ...
 ```
 
-顯然後半段說明了我們剛剛在 favicon.ico 找到 part3 的原因。  
+顯然後半段說明了我們剛剛在 favicon.ico 找到 part3 的原因。
 
-而前半段則說明了  part2 會被 AES 解密並設成 cookie ，前提是在安全瀏覽的情況下。
+而前半段則說明了 part2 會被 AES 解密並設成 cookie ，前提是在安全瀏覽的情況下。
 
-馬上試試看可不可以直接 ``` https://chals.swampctf.com:42222/ ```
+馬上試試看可不可以直接 `https://chals.swampctf.com:42222/`
 
-![error](/img/swampCTF/web/BeginnerWeb/bw(4).png)
+![error](</img/swampCTF/web/BeginnerWeb/bw(4).png>)
 
 好吧，不行
 
@@ -238,20 +256,24 @@ function decodeFlagPart2() {
 
 decodeFlagPart2();
 ```
+
 Terminal:
+
 ```
 > node decodeFlagPart2.js
-> Decoded flagPart2: br0w53r5_4r3_ 
+> Decoded flagPart2: br0w53r5_4r3_
 ```
 
 ---
+
 <div class="text-center">
   <span>🚩</span>
   <span style="color:#1fdcb6">**swampCTF\{w3b_br0w53r5_4r3_c0mpl1c473d\}**</span>
 </div>
---- 
+---
 
 ## Conclusion
+
 這些題目都挺簡單的（因為我也只挑簡單的解），但我也有從中學到東西，甚至還考驗了平常有沒有在關注資安新聞的部分。只能說出題團隊太神啦！
 
 然後是這篇 writeup 寫得好累，包含從前期截圖，到開始寫花了很多時間在喬圖片，而且截圖呈現的部分和文字說明也要有所取捨。
