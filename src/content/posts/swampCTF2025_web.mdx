@@ -105,10 +105,9 @@ Secret Flag:
 ```
 x-middleware-subrequest: middleware:middleware:middleware
 ```
+![flagnone2](/img/swampCTF/web/slowAPI/API(7).png)
 
 出現  NS_ERROR_UNKNOWN_HOST 的錯誤
-
-![flagnone2](/img/swampCTF/web/slowAPI/API(7).png)
 
 把 Host 改成 http://chals.swampctf.com:43611/api/protected/flag ，一樣的 header 再發一次
 
@@ -123,3 +122,140 @@ x-middleware-subrequest: middleware:middleware:middleware
 
 ### Hidden Message-Board - 50 pts
 ![question3](/img/swampCTF/web/HiddenMessage-Board/hmb.png)
+
+給了一個網頁 http://chals.swampctf.com:43333 ，點開來就是一個~~看起來非常初學~~的留言板  
+根據提示打開 devtool ，發現有一個 display:none 的註釋
+```
+Need to remove flagstuff, code: G1v3M3Th3Fl@g!!!!
+```
+
+從 network Ctrl+F 查詢註釋所說的 flagstuff ，在bundle.js中發現了一些函數：
+```
+var printFlagSetup = document.getElementById("flagstuff");
+console.log("Flag Will Be Checked");
+...
+async function checkCode() {
+    if (printFlagSetup != undefined) {
+      console.log(printFlagSetup.getAttribute("code"));
+      if (printFlagSetup.getAttribute("code") === "G1v3M3Th3Fl@g!!!!") {
+        const flag = await (0,_Messages_tsx__WEBPACK_IMPORTED_MODULE_3__.getFlag)();
+        setFlagValue("[flag]: " + flag);
+      }
+    }
+  }
+```
+
+先在 console 試
+```document.getElementById("flagstuff").setAttribute("code", "G1v3M3Th3Fl@g!!!!")```
+，結果什麼都沒有
+
+從留言板嘗試 XXS
+```<div id="flagstuff" code="G1v3M3Th3Fl@g!!!!"></div>```  
+
+![flag](/img/swampCTF/web/HiddenMessage-Board/hmb(3).png)
+
+Bingo!
+
+---
+<div class="text-center">
+  <span>🚩</span>
+  <span style="color:#1fdcb6">**swampCTF\{Cross_51t3_Scripting_0r_XSS_c4n_ch4ng3_w3bs1t3s\}**</span>
+</div>
+--- 
+
+### Beginner Web - 100 pts
+![question4](/img/swampCTF/web/BeginnerWeb/bw.png)
+
+這個題目將 flag 分成三個 part，並給了一個網址 http://chals.swampctf.com:42222/ 
+
+點進去是一個網頁，唯一的功能似乎是告訴我們今天是不是星期二（hint: 比賽兩天是周末）
+
+先打開 devtool 看看
+
+![flagpart1](/img/swampCTF/web/BeginnerWeb/bw(2).png)
+
+直接找到 part1 了  
+```
+<!--Part 1 of the flag: w3b_"-->
+```
+
+然後慣例的也跑到 network Ctrl+F 搜尋 flag 
+
+發現了 favicon.ico 中的請求頭中有
+```
+flagPart3: c0mpl1c473d
+```
+
+現在找到頭尾了，剩下 part2。直接在 network 搜尋了 part2，發現在 main-34VY7I6V.js 裡面有一段：
+```
+var gs = class e {
+    constructor(t) {
+        this.cookieService = t;
+        let n = "flagPart2_3"
+          , r = "U2FsdGVkX1/oCOrv2BF34XQbx7f34cYJ8aA71tr8cl8="
+          , o = "U2FsdGVkX197aFEtB5VUIBcswkWs4GiFPal6425rsTU=";
+        this.cookieService.set("flagPart2", $n.AES.decrypt(r, n).toString($n.enc.Utf8), {
+            expires: 7,
+            path: "/",
+            secure: !0,
+            sameSite: "Strict"
+        });
+        let i = new Headers;
+        i.set("flagPart3", $n.AES.decrypt(o, n).toString($n.enc.Utf8)),
+        fetch("/favicon.ico", {
+            headers: i
+        })
+    }
+...
+```
+
+顯然後半段說明了我們剛剛在 favicon.ico 找到 part3 的原因。  
+
+而前半段則說明了  part2 會被 AES 解密並設成 cookie ，前提是在安全瀏覽的情況下。
+
+馬上試試看可不可以直接 ``` https://chals.swampctf.com:42222/ ```
+
+![error](/img/swampCTF/web/BeginnerWeb/bw(4).png)
+
+好吧，不行
+
+只好~~讓 copilot~~寫一段 code 來 decode 了
+
+```
+const CryptoJS = require("crypto-js");
+
+function decodeFlagPart2() {
+  const encryptedText = "U2FsdGVkX1/oCOrv2BF34XQbx7f34cYJ8aA71tr8cl8="; // r 的值
+  const key = "flagPart2_3"; // n 的值
+
+  // decode
+  const decryptedText = CryptoJS.AES.decrypt(encryptedText, key).toString(
+    CryptoJS.enc.Utf8
+  );
+
+  console.log("Decoded flagPart2:", decryptedText);
+}
+
+decodeFlagPart2();
+```
+Terminal:
+```
+> node decodeFlagPart2.js
+> Decoded flagPart2: br0w53r5_4r3_ 
+```
+
+---
+<div class="text-center">
+  <span>🚩</span>
+  <span style="color:#1fdcb6">**swampCTF\{w3b_br0w53r5_4r3_c0mpl1c473d\}**</span>
+</div>
+--- 
+
+## Conclusion
+這些題目都挺簡單的（因為我也只挑簡單的解），但我也有從中學到東西，甚至還考驗了平常有沒有在關注資安新聞的部分。只能說出題團隊太神啦！
+
+然後是這篇 writeup 寫得好累，包含從前期截圖，到開始寫花了很多時間在喬圖片，而且截圖呈現的部分和文字說明也要有所取捨。
+
+平常有在寫 writeup 的人真的好偉大，了不起了不起。
+
+後面別的類別應該會用別篇更新，這篇就到這裡了。
