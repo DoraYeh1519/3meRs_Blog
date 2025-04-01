@@ -12,9 +12,6 @@
     "id": "trash_talk"
   },
   {
-    "id": "writeup"
-  },
-  {
     "id": "web"
   },
   {
@@ -25,5 +22,8 @@
   },
   {
     "id": "OSINT"
+  },
+  {
+    "id": "swampCTF_2025"
   }
 ]
